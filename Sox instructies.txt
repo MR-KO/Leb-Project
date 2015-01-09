@@ -1,0 +1,12 @@
+Typ het volgende commando in je terminal:
+
+sox [het originele bestand.wav] -e unsigned-integer [output.wav]
+
+Als je ook wilt knippen in stukjes van een uur, gebruik dan:
+
+sox [het originele bestand.wav] -e unsigned-integer [output_uur1.wav] trim 0 60:00
+sox [het originele bestand.wav] -e unsigned-integer [output_uur2.wav] trim 60:00 60:00
+sox [het originele bestand.wav] -e unsigned-integer [output_uur3.wav] trim 120:00 60:00
+enzovoort
+
+Maar jullie slimme jongens kunnen het vast wel even automatiseren
