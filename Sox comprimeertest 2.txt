@@ -1,1 +1,6 @@
 sox [bestand].wav -e unsigned -b 8 -r 8k [bestand]_small.wav
+
+
+Windows batch in vogel_audio/Recordings met daarin snelkoppeling naar sox.exe (sox.exe.lnk)
+
+for /r %CD% %%X in (*.WAV) do (%CD%\sox.exe.lnk %%X -e unsigned -b 8 -r 8k %CD%\%%~nX_small.wav)
