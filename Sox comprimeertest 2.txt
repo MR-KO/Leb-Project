@@ -1,0 +1,1 @@
+sox [bestand].wav -e unsigned -b 8 -r 8k [bestand]_small.wav
