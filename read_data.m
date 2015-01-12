@@ -37,7 +37,7 @@ function wave_data = read_data(filename, interval, t_skip, t_length)
 	should_stop = 0;
 
 	for i=1:num_intervals
-	    data = (fread(fp, interval * samplerate, 'uint8', 'l') - 128) ./ (128);
+	    data = (fread(fp, interval * samplerate, 'uint8', 'l') - 128) ./ 128;
 
 	    % Test for end of file, ignore Inf and NaN values.
 	    if feof(fp) == 1
