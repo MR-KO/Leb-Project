@@ -23,7 +23,7 @@ for ((i=0;i<$numfiles;i++)); do
     # for ((j=0;j<$length;j=j+3600)); do
     #     sox ${files[$i]} -e unsigned-integer $outputdir${files[$i]} trim $j 60:00
     # done
-    sox ${files[$i]} -e unsigned-integer $outputdir${files[$i]}
+    sox ${files[$i]} -e unsigned-integer -b 8 -r 8k $outputdir${files[$i]}
 done
 
 echo "Done"
