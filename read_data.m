@@ -28,13 +28,10 @@ function wave_data = read_data(filename, interval, t_skip, t_length)
 
 	% Read in the wave data
 	num_intervals = round(t_length / interval);
-	disp(num_intervals);
 
 	if t_length / interval - num_intervals >= 0.5
 		num_intervals = num_intervals + 1;
 	end
-
-	disp(num_intervals);
 
 	wave_data = zeros(1, num_intervals);
 	should_stop = 0;
