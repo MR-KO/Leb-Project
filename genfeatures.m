@@ -1,11 +1,11 @@
-function genfeatures( interval, t_skip, t_length, feature_function, output_file )
 % Generates csv files, format:
 %
 % BIRDID,YYYY,MM,DD,HH,MM,SHIFTED,{FEATURES}
 %
 % e.g. genfeatures(60*6,0,24*60*60,@(x) mean(abs(x)),'data_6_avg.csv')
 %
-	SEC_IN_DAY = 24*60*60;
+function genfeatures(interval, t_skip, t_length, feature_function, output_file)
+	SEC_IN_DAY = 24 * 60 * 60;
 	samplerate = 8000;
 
 	previous_dir = pwd;
@@ -38,8 +38,8 @@ function genfeatures( interval, t_skip, t_length, feature_function, output_file 
 		num_intervals = ceil(t_length / interval);
 
 		% default NaN
-		F = zeros(1, num_intervals)/0;
-		t_start = t_skip + str2num(file_name{5})*60*60 + str2num(file_name{6})*60;
+		F = zeros(1, num_intervals) / 0;
+		t_start = t_skip + str2num(file_name{5}) * 60 * 60 + str2num(file_name{6}) * 60;
 		% display(t_start);
 
 		fp_wav = fopen(file.name, 'r');
@@ -48,7 +48,7 @@ function genfeatures( interval, t_skip, t_length, feature_function, output_file 
 		while 1
 			x = fread(fp_wav, 1, 'uint32', 0, 'b');
 			if x == hex2dec('64617461') % data section
-				break
+				break;
 			end
 		end
 
@@ -72,7 +72,7 @@ function genfeatures( interval, t_skip, t_length, feature_function, output_file 
 			end
 
 			% map t -> feature_index
-			feature_index = 1 + mod(floor(t_start / interval) * interval, SEC_IN_DAY)/interval;
+			feature_index = 1 + mod(floor(t_start / interval) * interval, SEC_IN_DAY) / interval;
 			F(feature_index) = feature_function(data);
 
 			if should_stop
@@ -83,7 +83,7 @@ function genfeatures( interval, t_skip, t_length, feature_function, output_file 
 		end
 
 
-		for j=1:num_intervals-1
+		for j = 1:num_intervals - 1
 			fprintf(fp_csv, '%.5f,', F(j));
 		end
 
