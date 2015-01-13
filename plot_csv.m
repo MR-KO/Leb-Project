@@ -14,8 +14,9 @@ function plot_dataset(filename)
 	for j=1:n
 	    X(j) = t;
 	    t = addtodate(t, interval, 'second');
-	end
+    end
 
 	plot(X, not_shifted(:, 8:end));
+    legend(strtrim(cellstr(num2str(not_shifted(:,1:4)))'));
 	datetick('x', 'HH');
 end

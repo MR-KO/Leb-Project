@@ -14,7 +14,7 @@ function genfeatures(interval, t_skip, t_length, feature_function, output_file)
 	file_pattern = '.([a-zA-Z0-9])+_(\d{4})(\d{2})(\d{2})_recstart(\d{2})(\d{2}).*';
 	fp_csv = fopen(output_file, 'w');
 
-	cd('/media/kevin/DATA/vogel_audio/Recordings_fixed/');
+	%cd('/media/kevin/DATA/vogel_audio/Recordings_fixed/');
 	files = dir('*.wav');
 	index = 1;
 	files_length = length(files);
