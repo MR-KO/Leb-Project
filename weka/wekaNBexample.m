@@ -1,4 +1,4 @@
-%Test weka's Naive Bayes implementation on the iris data. 
+%Test weka's Naive Bayes implementation on the iris data.
 
 load fisheriris;    %built in to matlab
 
@@ -10,7 +10,7 @@ species = species(perm,:);
 
 featureNames = {'sepallength','sepalwidth','petallength','petalwidth','class'};
 
-%Prepare test and training sets. 
+%Prepare test and training sets.
 data = [num2cell(meas),species];
 train = data(1:120  ,:);
 test  = data(121:end,:);
