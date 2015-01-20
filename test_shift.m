@@ -45,28 +45,37 @@ function test_shift(filename)
     numplots = 5;
 
     subplot(numplots, 1, 1)
-	plot(X, mean(not_shifted(:, 8:end)))
+	plot(X, nanmean(not_shifted(:, 8:end)))
+	datetick('x', 'HH');
+	ylim([0, 0.02])
     legend('not shifted');
 
     subplot(numplots, 1, 2)
-	plot(X, mean(shifted_1(:, 8:end)))
+	plot(X, nanmean(shifted_1(:, 8:end)))
+	datetick('x', 'HH');
+	ylim([0, 0.02])
     legend('day 1');
 
     subplot(numplots, 1, 3)
-	plot(X, mean(shifted_2(:, 8:end)))
+	plot(X, nanmean(shifted_2(:, 8:end)))
+	datetick('x', 'HH');
+	ylim([0, 0.02])
     legend('day 2');
 
     subplot(numplots, 1, 4)
-	plot(X, mean(shifted_3(:, 8:end)))
+	plot(X, nanmean(shifted_3(:, 8:end)))
+	datetick('x', 'HH');
+	ylim([0, 0.02])
     legend('day 3');
 
     subplot(numplots, 1, 5)
-	plot(X, mean(shifted_4(:, 8:end)))
+	plot(X, nanmean(shifted_4(:, 8:end)))
+	datetick('x', 'HH');
+	ylim([0, 0.02])
     legend('day 4');
 
-	% plot(X, mean(shifted_5(:, 8:end)));
-	% plot(X, mean(shifted_back(:, 8:end)));
+	% plot(X, nanmean(shifted_5(:, 8:end)));
+	% plot(X, nanmean(shifted_back(:, 8:end)));
     % legend(strtrim(cellstr(num2str(not_shifted(:,1:4)))'));
     % legend('not shifted', 'day 1', 'day 2', 'day 3', 'day 4', 'day 5', 'shifted back');
-	datetick('x', 'HH');
     hold off;
