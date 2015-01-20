@@ -1,14 +1,14 @@
 %
 % AIDS
-%
-function vekaRandomAidsForest(filename)
+% %
+% function wekaRandomAidsForest(filename)
 	% Aids for weka ebola
 	javaclasspath('./weka/lib/weka.jar');
 
 	% Load data
 	data = csvread('data_10_avg.csv');
 	classindex = 7;
-	features = data(:, classindex+1:end);
+	% features = data(:, classindex+1:end);
 
 	% Separate shifted and non-shifted dataset
 	not_shifted = data(data(:, classindex) == 0, :);
@@ -40,8 +40,6 @@ function vekaRandomAidsForest(filename)
 	end
 
 	feature_names{datasize} = 'class';
-    
-    display()
 
 	%Convert to weka format
 	classindex = datasize;
@@ -53,7 +51,7 @@ function vekaRandomAidsForest(filename)
 
 
 	actual = test.attributeToDoubleArray(classindex - 1) %java indexes from 0
-end
+% end
 
 
 % EBOLA
