@@ -43,14 +43,14 @@
 
 	%Convert to weka format
 	classindex = datasize;
-	train = matlab2weka('train', feature_names, train, classindex);
+	train = matlab2weka('train', feature_names, train, datasize);
 	test =  matlab2weka('test', feature_names, test);
 
 	raf = trainWekaClassifier(train, 'trees.RandomForest');
 	predicted = wekaClassify(test, raf)
 
 
-	actual = test.attributeToDoubleArray(classindex - 1) %java indexes from 0
+	actual = test.attributeToDoubleArray(datasize - 1) %java indexes from 0
 % end
 
 
