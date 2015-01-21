@@ -7,8 +7,10 @@ CLASSIFIER = 'trees.RandomForest';
 TEST_ID = 25;
 
 % Add weka and svm libraries to the classpath
-javaaddpath('lib/weka.jar');
-javaaddpath('lib/libsvm.jar');
+if ~wekaPathCheck
+    javaaddpath('lib/weka.jar');
+    javaaddpath('lib/libsvm.jar');
+end
 
 data = csvread(DATASET);
 display(size(data), 'data size');
@@ -31,7 +33,10 @@ feature_names{length(feature_names)+1} = 'class';
 
 % Split into training set and test set
 train = [num2cell(features), classes];
-test = train(TEST_ID, :);
+
+% We need samples with all possible classes in the testset, otherwise
+% randomforest fails. Hence we append the trainingset and testset
+test = [train ; train(TEST_ID, :)];
 train(TEST_ID, :) = [];
 
 train = matlab2weka('shift-train', feature_names, train, length(train));
@@ -40,9 +45,4 @@ test = matlab2weka('shift-test', feature_names, test);
 classifier = trainWekaClassifier(train, CLASSIFIER);
 
 predicted = wekaClassify(test, classifier);
-
-
-
-
-
-
+predicted = predicted(end, :);
