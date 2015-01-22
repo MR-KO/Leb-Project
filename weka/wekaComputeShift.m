@@ -4,7 +4,7 @@
 % TODO make this a function
 DATASET = 'datasets/data_10_avg.csv';
 CLASSIFIER = 'trees.RandomForest';
-TEST_ID = 25;
+TEST_ID = 24;
 
 % Add weka and svm libraries to the classpath
 if ~wekaPathCheck
@@ -13,13 +13,14 @@ if ~wekaPathCheck
 end
 
 data = csvread(DATASET);
-display(size(data), 'data size');
+
+display('Computing shift of ');
+display(data(TEST_ID, 1:7));
 
 % Remove date/time etc. and set last col to class (col index 7)
 features = data(:, 8:end);
 classes = data(:, 7);
-display(size(features), 'feature size');
-display(size(classes), 'class size');
+test_class = classes(TEST_ID, 1);
 
 % Transform 0/1 class into not_shifted/shifted
 classes = cellstr(num2str(classes));
@@ -39,10 +40,26 @@ train = [num2cell(features), classes];
 test = [train ; train(TEST_ID, :)];
 train(TEST_ID, :) = [];
 
-train = matlab2weka('shift-train', feature_names, train, length(train));
-test = matlab2weka('shift-test', feature_names, test);
+train_weka = matlab2weka('shift-train', feature_names, train, length(train));
 
-classifier = trainWekaClassifier(train, CLASSIFIER);
+classifier = trainWekaClassifier(train_weka, CLASSIFIER);
 
-predicted = wekaClassify(test, classifier);
-predicted = predicted(end, :);
+for i=0:no_features
+    
+    test_weka = matlab2weka('shift-test', feature_names, test);
+    
+    predicted = wekaClassify(test_weka, classifier);
+    predicted = predicted(end, :);
+    
+    if predicted ~= test_class
+        display(i);
+        display(predicted);
+        break;
+    end
+    
+    % Shift test sample 1 interval to the left
+    test = [ circshift(test(:,1:end-1),[0,-1]) test(:,end)];
+    
+end
+
+
