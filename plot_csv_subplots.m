@@ -10,5 +10,6 @@ function plot_dataset(filename)
 	for i = 1:n
 		subplot(n, 1, i);
 		plot(not_shifted(i, 8:end));
+		legend(strtrim(cellstr(num2str(not_shifted(i, 1:4)))'));
 	end
 end

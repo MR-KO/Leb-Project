@@ -2,7 +2,7 @@
 function plot_dataset(filename)
 	dataset = csvread(filename);
 	shifted = dataset(dataset(:, 7) == 1, :);
-	not_shifted = dataset(dataset(:, 7) == 0, :);
+	not_shifted = dataset(dataset(:, 7) == 0, :)
 
 	n = size(dataset, 2) - 7;
 
@@ -12,11 +12,13 @@ function plot_dataset(filename)
 	interval = (24 * 60 * 60) / n
 
 	for j=1:n
-	    X(j) = t;
-	    t = addtodate(t, interval, 'second');
-    end
+		X(j) = t;
+		t = addtodate(t, interval, 'second');
+	end
+
+	size(not_shifted)
 
 	plot(X, not_shifted(:, 8:end));
-    legend(strtrim(cellstr(num2str(not_shifted(:,1:4)))'));
+	legend(strtrim(cellstr(num2str(not_shifted(:,1:4)))'));
 	datetick('x', 'HH');
 end
