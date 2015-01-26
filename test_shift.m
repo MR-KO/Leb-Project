@@ -43,35 +43,36 @@ function test_shift(filename)
     figure;
     hold on;
     numplots = 5;
+    ymax = 0.02
 
     subplot(numplots, 1, 1)
 	plot(X, nanmean(not_shifted(:, 8:end)))
 	datetick('x', 'HH');
-	ylim([0, 0.02])
+	ylim([0, ymax])
     legend('not shifted');
 
     subplot(numplots, 1, 2)
 	plot(X, nanmean(shifted_1(:, 8:end)))
 	datetick('x', 'HH');
-	ylim([0, 0.02])
+	ylim([0, ymax])
     legend('day 1');
 
     subplot(numplots, 1, 3)
 	plot(X, nanmean(shifted_2(:, 8:end)))
 	datetick('x', 'HH');
-	ylim([0, 0.02])
+	ylim([0, ymax])
     legend('day 2');
 
     subplot(numplots, 1, 4)
 	plot(X, nanmean(shifted_3(:, 8:end)))
 	datetick('x', 'HH');
-	ylim([0, 0.02])
+	ylim([0, ymax])
     legend('day 3');
 
     subplot(numplots, 1, 5)
 	plot(X, nanmean(shifted_4(:, 8:end)))
 	datetick('x', 'HH');
-	ylim([0, 0.02])
+	ylim([0, ymax])
     legend('day 4');
 
 	% plot(X, nanmean(shifted_5(:, 8:end)));
