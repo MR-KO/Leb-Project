@@ -18,11 +18,11 @@ function plot_dataset(filename)
 
 	size(not_shifted)
 
-	plot(X, not_shifted(:, 8:end));
-	% legend(strtrim(cellstr(num2str(not_shifted(:,1:4)))'));
-	datetick('x', 'HH');
-	figure;
-	plot(X, shifted(:, 8:end));
+	hold on
+	plot(X, nanmean(not_shifted(:, 8:end)));
+	plot(X, nanmean(shifted(:, 8:end)));
+	hold off
 	% legend(strtrim(cellstr(num2str(shifted(:,1:4)))'));
+	legend('not_shifted avg', 'shifted avg');
 	datetick('x', 'HH');
 end
