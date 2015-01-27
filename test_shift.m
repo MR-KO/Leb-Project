@@ -7,6 +7,8 @@
 % E.g., shift = [-10, -20, -30, -40] shifts the birds with a 6min interval
 % 1 hour to the left for the birds that have been shifted 1 day,
 % 2 hours to the left for the birds that have been shifted 2 days, etc.
+%
+% The shift is basically the number of intervals that you want to shift!
 function test_shift(filename, shift)
 	% Plot the averages of shifted, and day 1, 2, 3, 4 shifted
 	dataset = dlmread(filename, ',', 0, 0);
@@ -33,7 +35,7 @@ function test_shift(filename, shift)
 	% Extra day?
 	shifted_5 = dataset([9], :);
 
-	% And some data that has been unshifted... herp?
+	% And some data that has been unshifted... derp?
 	shifted_back = dataset([20], :);
 
 	% add time
@@ -42,48 +44,60 @@ function test_shift(filename, shift)
 	interval = (24 * 60 * 60) / n
 
 	for j=1:n
-	    X(j) = t;
-	    t = addtodate(t, interval, 'second');
-    end
+		X(j) = t;
+		t = addtodate(t, interval, 'second');
+	end
 
-    % Plot aids and ebola with bird flu
-    figure;
-    hold on;
-    numplots = 5;
-    ymax = 0.02
+	% Plot aids and ebola with bird flu
+	figure;
+	hold on;
+	numplots = 7;
+	ymax = 0.03
 
-    subplot(numplots, 1, 1)
+	subplot(numplots, 1, 1)
 	plot(X, nanmean(not_shifted(:, 8:end)));
 	datetick('x', 'HH');
 	ylim([0, ymax])
-    legend('not shifted');
+	legend('not shifted (15 birds)');
 
-    subplot(numplots, 1, 2)
+	subplot(numplots, 1, 2)
 	plot(X, circshift(nanmean(shifted_1(:, 8:end)), [0, shift(1)]));
 	datetick('x', 'HH');
 	ylim([0, ymax])
-    legend('day 1');
+	legend('day 1 (5 birds)');
 
-    subplot(numplots, 1, 3)
+	subplot(numplots, 1, 3)
 	plot(X, circshift(nanmean(shifted_2(:, 8:end)), [0, shift(2)]));
 	datetick('x', 'HH');
 	ylim([0, ymax])
-    legend('day 2');
+	legend('day 2 (5 birds)');
 
-    subplot(numplots, 1, 4)
+	subplot(numplots, 1, 4)
 	plot(X, circshift(nanmean(shifted_3(:, 8:end)), [0, shift(3)]));
 	datetick('x', 'HH');
 	ylim([0, ymax])
-    legend('day 3');
+	legend('day 3 (4 birds)');
 
-    subplot(numplots, 1, 5)
+	subplot(numplots, 1, 5)
 	plot(X, circshift(nanmean(shifted_4(:, 8:end)), [0, shift(4)]))
 	datetick('x', 'HH');
 	ylim([0, ymax])
-    legend('day 4');
+	legend('day 4 (2 birds)');
+
+	subplot(numplots, 1, 6)
+	plot(X, circshift(shifted_5(:, 8:end), [0, shift(5)]))
+	datetick('x', 'HH');
+	ylim([0, ymax])
+	legend('day 5 (1 bird)');
+
+	subplot(numplots, 1, 7)
+	plot(X, circshift(shifted_back(:, 8:end), [0, shift(6)]))
+	datetick('x', 'HH');
+	ylim([0, ymax])
+	legend('day 5, shifted back (1 bird)');
 
 	% plot(X, nanmean(shifted_5(:, 8:end)));
 	% plot(X, nanmean(shifted_back(:, 8:end)));
-    % legend(strtrim(cellstr(num2str(not_shifted(:,1:4)))'));
-    % legend('not shifted', 'day 1', 'day 2', 'day 3', 'day 4', 'day 5', 'shifted back');
-    hold off;
+	% legend(strtrim(cellstr(num2str(not_shifted(:,1:4)))'));
+	% legend('not shifted', 'day 1', 'day 2', 'day 3', 'day 4', 'day 5', 'shifted back');
+	hold off;

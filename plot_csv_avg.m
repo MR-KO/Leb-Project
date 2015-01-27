@@ -23,6 +23,6 @@ function plot_dataset(filename)
 	plot(X, nanmean(shifted(:, 8:end)));
 	hold off
 	% legend(strtrim(cellstr(num2str(shifted(:,1:4)))'));
-	legend('not_shifted avg', 'shifted avg');
+	legend('not-shifted avg', 'shifted avg');
 	datetick('x', 'HH');
 end

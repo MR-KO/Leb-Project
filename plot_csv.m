@@ -19,10 +19,12 @@ function plot_dataset(filename)
 	size(not_shifted)
 
 	plot(X, not_shifted(:, 8:end));
+	title('Not shifted')
 	% legend(strtrim(cellstr(num2str(not_shifted(:,1:4)))'));
 	datetick('x', 'HH');
 	figure;
 	plot(X, shifted(:, 8:end));
+	title('Shifted')
 	% legend(strtrim(cellstr(num2str(shifted(:,1:4)))'));
 	datetick('x', 'HH');
 end
