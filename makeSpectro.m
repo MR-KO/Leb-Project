@@ -1,4 +1,4 @@
-function makeSpectro(audio, Fs)
+spectro = function makeSpectro(audio, Fs)
     spectro = spectrogram(audio,128,120,128,8000,'yaxis');
     speccy = surf(abs(spectro));
     set(speccy, 'linestyle', 'none');
