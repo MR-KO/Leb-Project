@@ -4,7 +4,7 @@
 %
 % e.g. genfeatures(60*6,0,24*60*60,@(x) mean(abs(x)),'data_6_avg.csv')
 %
-% function genfreqfeatures(interval, t_skip, t_length, output_file)
+function genfreqfeatures(interval, t_skip, t_length, output_file)
 	SEC_IN_DAY = 24 * 60 * 60;
 	samplerate = 8000;
 
@@ -101,3 +101,4 @@
 	fclose(fp_csv);
 	cd(previous_dir);
 
+end
