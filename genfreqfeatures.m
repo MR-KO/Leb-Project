@@ -73,15 +73,18 @@
 
 			% map t -> feature_index
 			% feature_index = 1 + mod(floor(t_start / interval) * interval, SEC_IN_DAY) / interval;
-			spectro = spectrogram(data, 128, 120, 128, samplerate, 'yaxis');
+			spectro = abs(spectrogram(data, 128, 120, 128, samplerate, 'yaxis'));
 
 			% Select freq with highest power...
 			[max_columnvalues, freq_colindexes] = max(spectro);
-			[max_intensity, freq_col] = max(temp);
+			[max_intensity, freq_col] = max(max_columnvalues);
 			freq_row = freq_colindexes(freq_col);
 
 			F(i, 1) = freq_row * (4000/65.0);
 			F(i, 2) = max_intensity;
+			fprintf(fp_csv, '%.5f, ', F(i, 1));
+			fprintf(fp_csv, '%.5f\r\n', F(i, 2));
+			% disp('AIDS');
 
 			if should_stop
 				break;
@@ -90,13 +93,9 @@
 			t_start = t_start + interval;
 		end
 
-		for j = 1:num_intervals - 1
-			fprintf(fp_csv, '%.5f,%.5f\n', F(j, 1), F(j, 2));
-		end
-
-		fprintf(fp_csv, '%.8f', F(end));
 		fclose(fp_wav);
-		fprintf(fp_csv, '\r\n');
+
+		break;
 	end
 
 	fclose(fp_csv);
