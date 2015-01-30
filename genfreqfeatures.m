@@ -73,12 +73,15 @@
 
 			% map t -> feature_index
 			% feature_index = 1 + mod(floor(t_start / interval) * interval, SEC_IN_DAY) / interval;
-			spectro = abs(spectrogram(data, 128, 120, 128, samplerate, 'yaxis'));
+			spectro = spectrogram(data, 128, 120, 128, samplerate, 'yaxis');
 
 			% Select freq with highest power...
-			freq_power = 0;
-			F(i, 1) = spectro(1);
-			F(i, 2) = spectro(2);
+			[max_columnvalues, freq_colindexes] = max(spectro);
+			[max_intensity, freq_col] = max(temp);
+			freq_row = freq_colindexes(freq_col);
+
+			F(i, 1) = freq_row * (4000/65.0);
+			F(i, 2) = max_intensity;
 
 			if should_stop
 				break;
