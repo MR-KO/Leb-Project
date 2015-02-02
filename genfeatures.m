@@ -2,7 +2,13 @@
 %
 % BIRDID,YYYY,MM,DD,HH,MM,SHIFTED,{FEATURES}
 %
-% e.g. genfeatures(60*6,0,24*60*60,@(x) mean(abs(x)),'data_6_avg.csv')
+% Input variables are in seconds. The interval is the length in seconds to
+% consider when using a feature function. The t_skip variable is the amount of
+% seconds to skip from each recordingfile. The t_length variable is the amount of
+% seconds to use from each recordingfile. The feature_function is the function
+% to use for generating the features. Finally, output_file is a string where the
+% results will be written to.
+% e.g. genfeatures(60*6, 0, 24*60*60, @(x) mean(abs(x)), 'data_6_avg.csv')
 %
 function genfeatures(interval, t_skip, t_length, feature_function, output_file)
 	SEC_IN_DAY = 24 * 60 * 60;
@@ -14,7 +20,10 @@ function genfeatures(interval, t_skip, t_length, feature_function, output_file)
 	file_pattern = '.([a-zA-Z0-9])+_(\d{4})(\d{2})(\d{2})_recstart(\d{2})(\d{2}).*';
 	fp_csv = fopen(output_file, 'w');
 
-	cd('/media/kevin/DATA/vogel_audio/Recordings_fixed/');
+	% Optionally, change directory to where the recordings are...
+	% cd('/path/to/recording/files/');
+	% For example:
+	% cd('/media/kevin/DATA/vogel_audio/Recordings_fixed/');
 	files = dir('*.wav');
 	index = 1;
 	files_length = length(files);
@@ -29,8 +38,7 @@ function genfeatures(interval, t_skip, t_length, feature_function, output_file)
 		shifted = isempty(strfind(file.name, 'NO_SHIFT'));
 		file_name = regexp(file.name, file_pattern, 'tokens', 'once');
 
-		% display(file_name);
-
+		% Save
 		fprintf(fp_csv, '%s', strjoin(file_name, ','));
 		fprintf(fp_csv, ',%d,', shifted);
 
@@ -40,7 +48,6 @@ function genfeatures(interval, t_skip, t_length, feature_function, output_file)
 		% default NaN
 		F = zeros(1, num_intervals) / 0;
 		t_start = t_skip + str2num(file_name{5}) * 60 * 60 + str2num(file_name{6}) * 60;
-		% display(t_start);
 
 		fp_wav = fopen(file.name, 'r');
 

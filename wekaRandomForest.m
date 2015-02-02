@@ -1,8 +1,8 @@
 %
-% AIDS
+% DOESNT WORK! USE WITH CAUTION! MAY OR MAY NOT EXPLODE YOUR PC!
 % %
-% function wekaRandomAidsForest(filename)
-	% Aids for weka ebola
+function wekaRandomForest(filename)
+	% Add weka classpath
 	javaclasspath('./weka/lib/weka.jar');
 
 	% Load data
@@ -51,7 +51,4 @@
 
 
 	actual = test.attributeToDoubleArray(datasize - 1) %java indexes from 0
-% end
-
-
-% EBOLA
+end

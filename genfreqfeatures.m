@@ -2,8 +2,16 @@
 %
 % BIRDID,YYYY,MM,DD,HH,MM,SHIFTED,{FEATURES}
 %
-% e.g. genfeatures(60*6,0,24*60*60,@(x) mean(abs(x)),'data_6_avg.csv')
+% Input variables are in seconds. The interval is the length in seconds to
+% consider when generating frequency features. The t_skip variable is the amount of
+% seconds to skip from each recordingfile. The t_length variable is the amount of
+% seconds to use from each recordingfile. Finally, output_file is a string
+% where the results will be written to.
+% e.g. genfreqfeatures(1, 0, 24*3600, 'freq_1.csv')
 %
+% This function only generates a csv file with the pairs:
+% Frequency, Intensity
+% so that they can be used to find clusters.
 function genfreqfeatures(interval, t_skip, t_length, output_file)
 	SEC_IN_DAY = 24 * 60 * 60;
 	samplerate = 8000;
@@ -29,18 +37,12 @@ function genfreqfeatures(interval, t_skip, t_length, output_file)
 		shifted = isempty(strfind(file.name, 'NO_SHIFT'));
 		file_name = regexp(file.name, file_pattern, 'tokens', 'once');
 
-		% display(file_name);
-
-		% fprintf(fp_csv, '%s', strjoin(file_name, ','));
-		% fprintf(fp_csv, ',%d,', shifted);
-
 		% Compute features
 		num_intervals = ceil(t_length / interval);
 
 		% default NaN
 		F = zeros(num_intervals, 2);
 		t_start = t_skip + str2num(file_name{5}) * 60 * 60 + str2num(file_name{6}) * 60;
-		% display(t_start);
 
 		fp_wav = fopen(file.name, 'r');
 
@@ -71,11 +73,9 @@ function genfreqfeatures(interval, t_skip, t_length, output_file)
 				should_stop = 1;
 			end
 
-			% map t -> feature_index
-			% feature_index = 1 + mod(floor(t_start / interval) * interval, SEC_IN_DAY) / interval;
 			spectro = abs(spectrogram(data, 128, 120, 128, samplerate, 'yaxis'));
 
-			% Select freq with highest power...
+			% Select freq with highest intensity in this interval...
 			[max_columnvalues, freq_colindexes] = max(spectro);
 			[max_intensity, freq_col] = max(max_columnvalues);
 			freq_row = freq_colindexes(freq_col);
@@ -84,7 +84,6 @@ function genfreqfeatures(interval, t_skip, t_length, output_file)
 			F(i, 2) = max_intensity;
 			fprintf(fp_csv, '%.5f, ', F(i, 1));
 			fprintf(fp_csv, '%.5f\r\n', F(i, 2));
-			% disp('AIDS');
 
 			if should_stop
 				break;
@@ -94,8 +93,6 @@ function genfreqfeatures(interval, t_skip, t_length, output_file)
 		end
 
 		fclose(fp_wav);
-
-		break;
 	end
 
 	fclose(fp_csv);
